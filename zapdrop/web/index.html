@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zap Drop</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b82f6'/%3E%3Cpath d='M12 5v10m0 0-4-4m4 4 4-4M6 19h12' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script>try{const t=localStorage.getItem("zapdrop-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div id="login" class="login hidden">
+  <form class="login-card" id="login-form">
+    <div class="brand big"><span class="logo"></span>Zap Drop</div>
+    <p class="muted" id="login-sub">Enter the admin password of this PC to control it remotely.</p>
+    <input type="password" id="login-pw" placeholder="Admin password" autocomplete="current-password" required>
+    <button class="btn primary" type="submit">Unlock</button>
+    <p class="error" id="login-err"></p>
+  </form>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand"><span class="logo"></span>Zap Drop</div>
+    <div class="me">
+      <span class="me-alias" id="me-alias"></span>
+      <button class="pill" id="host-pill" title="Turn hosting on/off"></button>
+    </div>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="theme-btn" title="Toggle dark/light"></button>
+    <button class="icon-btn hidden" id="logout-btn" title="Lock remote session"></button>
+  </header>
+
+  <aside class="sidebar">
+    <div class="side-head">
+      <span>Devices</span>
+      <button class="link-btn" id="add-peer-btn">+ Add by IP</button>
+    </div>
+    <div id="peer-list" class="peer-list"></div>
+    <div class="side-foot" id="side-foot"></div>
+  </aside>
+
+  <main class="main">
+    <nav class="tabs" id="tabs">
+      <button data-tab="files" class="active">Files</button>
+      <button data-tab="transfers">Transfers <span class="badge hidden" id="tx-badge"></span></button>
+      <button data-tab="history">History</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+
+    <section class="tab files active" id="tab-files">
+      <div class="pane" id="local-pane">
+        <div class="pane-head">
+          <div class="pane-title">This PC</div>
+          <div class="pane-tools">
+            <button class="icon-btn sm" data-act="up" title="Up"></button>
+            <button class="icon-btn sm" data-act="refresh" title="Refresh"></button>
+            <button class="icon-btn sm" data-act="mkdir" title="New folder"></button>
+          </div>
+        </div>
+        <div class="crumbs" id="local-crumbs"></div>
+        <div class="list" id="local-list" tabindex="0"></div>
+        <div class="pane-foot">
+          <span class="sel-info" id="local-sel"></span>
+          <button class="btn primary" id="send-btn" disabled>Send →</button>
+        </div>
+      </div>
+      <div class="pane" id="remote-pane">
+        <div class="pane-head">
+          <div class="pane-title" id="remote-title">Other PC</div>
+          <div class="pane-tools">
+            <button class="icon-btn sm" data-act="up" title="Up"></button>
+            <button class="icon-btn sm" data-act="refresh" title="Refresh"></button>
+          </div>
+        </div>
+        <div class="crumbs" id="remote-crumbs"></div>
+        <div class="list" id="remote-list" tabindex="0"></div>
+        <div class="pane-foot">
+          <span class="sel-info" id="remote-sel"></span>
+          <button class="btn primary" id="download-btn" disabled>← Download</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-transfers">
+      <div class="section-head"><h2>Transfers</h2><button class="btn ghost sm" id="clear-done-btn">Clear finished</button></div>
+      <div id="serving"></div>
+      <div id="job-list" class="job-list"></div>
+    </section>
+
+    <section class="tab" id="tab-history">
+      <div class="section-head"><h2>History</h2><button class="btn ghost sm" id="clear-history-btn">Clear history</button></div>
+      <div class="table-wrap"><table class="table" id="history-table"></table></div>
+    </section>
+
+    <section class="tab" id="tab-settings">
+      <div class="settings" id="settings"></div>
+    </section>
+  </main>
+</div>
+
+<div id="modal-root"></div>
+<div id="toasts" class="toasts"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
